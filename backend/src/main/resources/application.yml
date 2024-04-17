@@ -1,0 +1,42 @@
+spring:
+  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://13.209.32.176:3306/bitcampdb?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      username: root
+      password: root
+  config:
+    activate:
+      on-profile: default
+  application:
+    name: api
+  sql:
+    init:
+      platform: mysql
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          lob:
+            '[non_contextual_creation]': true
+        '[format_sql]': true
+    show-sql: true
+    defer-datasource-initialization: true
+    open-in-view: false
+  output:
+    ansi:
+      enabled: always
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type: trace
+jwt:
+  iss: bitcamp.co.kr
+  exp: 24 * 60 * 60 * 1000
+  secret: bitcampbitcampbitcampbitcampbitcampbitcampbitcamp
