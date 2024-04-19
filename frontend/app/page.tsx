@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import Link from "next/link";
@@ -19,29 +19,35 @@ export default function Home() {
   const router = useRouter();
   const dispatch = useDispatch();
   const auth = useSelector(getAuth)
+  const formRef = useRef<HTMLInputElement>(null);
 
   const [user, setUser] = useState({} as IUser)
   const [isWrongId, setIsWrongId] = useState(false)
   const [isTrueId, setIsTrueId] = useState(false)
+  const [beforeSubmit, setBeforeSubmit] = useState(true)
   const [len, setLen] = useState('')
 
   const [isWrongPw, setIsWrongPW] = useState(false)
 
-  const existsUsername = useSelector(getExistsUsername)
+  const existsUsernameSelector = useSelector(getExistsUsername)
+
 
 
   const handleUsername = (e: any) => {
-    const ID_CHECK = /^[a-zA-Z][a-zA-Z0-9]{5,19}$/g;
+    const ID_CHECK = /^[a-zA-Z][a-zA-Z0-9]{5,12}$/g;
     // 영어 대소문자로 시작하는 6 ~20자 의 영어 대소문자 또는 숫자 
       setLen(e.target.value)
-   
+      setBeforeSubmit(true)
       if (ID_CHECK.test(len)) {
         setIsWrongId(false)
         setIsTrueId(true)
         setUser({
           ...user,
-          username: len
+          username: e.target.value
         })
+        console.log('ID_CHECK 내용 : '+JSON.stringify(user))
+       
+
       }else{
         setIsWrongId(true)
         setIsTrueId(false)
@@ -52,9 +58,6 @@ export default function Home() {
 
 
   const handlePassword = (e: any) => {
-    const PW_CHECK = /^ $/
-    // 영어 대소문자로 시작하는 6 ~20자 의 영어 대소문자 또는 숫자 
-
     setUser({
       ...user,
       password: e.target.value
@@ -65,6 +68,13 @@ export default function Home() {
     console.log('user ...' + JSON.stringify(user))
     dispatch(existsUsername(user.username))
     // dispatch(login(user))
+     setBeforeSubmit(false)
+     setIsWrongId(false)
+     setIsTrueId(false)
+     if (formRef.current) {
+	    formRef.current.value = "";
+		}
+     
   }
 
   useEffect(() => {
@@ -83,6 +93,7 @@ export default function Home() {
 
 
   return (
+   
     <div className='margincenter w-4/5 my-[30px] border-double border-4'>
       <div className="text-3xl font-bold underline text-center">welcom to react world !!</div><br />
       <h2>ID: alamblot0</h2>
@@ -102,27 +113,30 @@ export default function Home() {
                 ID
               </label>
               <input
+              
                 onChange={handleUsername}
                 className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
-                type="email"
+                type="text"
                 required
               />
             </div>
-            {isWrongId && len?.length != 0 &&(<pre>
+            {isWrongId && len?.length > 1 &&(<pre>
               <h6 className='text-red-500' >
                 잘못된 아이디 입니다.
               </h6>
             </pre>)}
-            {isTrueId && (<pre>
+            {isTrueId && len?.length > 1 && (<pre>
               <h6 className='text-blue-500' >
                 올바른 아이디 입니다.
               </h6>
             </pre>)}
-            {!existsUsername && len?.length != 0 && <pre>
+
+            {!beforeSubmit && !existsUsernameSelector && (<pre>
               <h6 className='text-red-500' >
-                잘못된 아이디 입니다.
+                존재하지 않는 아이디 입니다.
               </h6>
-            </pre>}
+            </pre>)}
+            
             <div className="mt-4 flex flex-col justify-between">
               <div className="flex justify-between">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -130,6 +144,7 @@ export default function Home() {
                 </label>
               </div>
               <input
+              ref ={formRef}
                 onChange={handlePassword}
                 className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
                 type="password"
@@ -199,6 +214,7 @@ export default function Home() {
       </div>
 
     </div>
+    
   )
 
 

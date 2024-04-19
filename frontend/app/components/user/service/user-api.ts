@@ -38,7 +38,7 @@ export const loginAPI = async (user: IUser) =>{
 export const existsUsernameAPI = async (username: string) => {
     try{
         const response = await instance.get(`/users/exists-username`,{params: {username}})
-        // Java 에서 Messenger.message 에 값을 담음
+        console.log('existsUsernameAPI 결과: '+ response.data)
         return response.data
     }catch(error){
         console.log(error)

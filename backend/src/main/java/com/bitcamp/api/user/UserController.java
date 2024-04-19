@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping("/detail")
 
-    public ResponseEntity<Optional<UserDto>> findById(@RequestParam Long id) {
+    public ResponseEntity<Optional<UserDto>> findById(@RequestParam("id") Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
@@ -53,7 +53,7 @@ public class UserController {
 
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Messenger> deleteById(@RequestParam Long id) {
+    public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
         return ResponseEntity.ok(service.deleteById(id));
     }
 
@@ -74,15 +74,15 @@ public class UserController {
         return ResponseEntity.ok(service.login(param));
     }
     @GetMapping("/exists")
-    public ResponseEntity<Boolean> existsById(@RequestParam long id) {
+    public ResponseEntity<Boolean> existsById(@RequestParam("id") long id) {
         return ResponseEntity.ok(service.existsById(id));
     }
 
     @GetMapping("/exists-username")
     public ResponseEntity<Boolean> existsUsername(@RequestParam("username") String username) {
-        log.info("existsUsername 파라미터 정보 : "+username);
+        log.info("existsUsernam 파라미터 정보 : "+username);
         Boolean flag = service.existsUsername(username);
-        log.info("existsUsername 결과 : "+flag);
+        log.info("existsUsernam 결과 : "+flag);
         return ResponseEntity.ok(flag);
     }
 
