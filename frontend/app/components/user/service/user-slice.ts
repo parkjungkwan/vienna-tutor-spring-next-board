@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { createSlice } from "@reduxjs/toolkit";
 import { IUser } from '../model/user';
 
-import { findAllUsers, findUserById, login } from './user-service';
+import { existsUsername, findAllUsers, findUserById, login } from './user-service';
 
 const userThunks = [findAllUsers,findUserById]
 
@@ -21,13 +21,16 @@ interface IAuth{
 interface UserState  {
     array? : Array<IUser>,
     json?:IUser,
-    auth?: IAuth
+    auth?: IAuth,
+    existsUsername?: boolean
+
 }
 
 export const initialState:UserState = {
     json: {} as IUser,
     array : [],
-    auth: {} as IAuth
+    auth: {} as IAuth,
+    existsUsername: false
 }
 
 export const userSlice = createSlice({
@@ -41,12 +44,14 @@ export const userSlice = createSlice({
         .addCase(findAllUsers.fulfilled,  (state: any, {payload}: any) => {state.array=payload})
         .addCase(findUserById.fulfilled,  (state: any, {payload}: any) => {state.json=payload})
         .addCase(login.fulfilled,  (state: any, {payload}: any) => {state.auth=payload})
+        .addCase(existsUsername.fulfilled,  (state: any, {payload}: any) => {state.existsUsername=payload})
   
     }
 })
 export const getAllUsers = (state: any) =>(state.user.array)
 export const getUserById = (state: any) =>(state.user.json)
 export const getAuth = (state: any) =>(state.user.auth)
+export const getExistsUsername = (state: any) =>(state.user.existsUsername)
 
 export const {} = userSlice.actions
 

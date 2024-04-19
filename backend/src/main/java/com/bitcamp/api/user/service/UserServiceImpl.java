@@ -101,9 +101,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Messenger login(UserDto dto) {
-        boolean flag = repository.findByUsername(dto.getUsername()).get().getPassword().equals(dto.getPassword());
-
-        String token = jwtProvider.createToken(dto);
+        User user = repository.findByUsername(dto.getUsername()).get();
+        String token = jwtProvider.createToken(entityToDto(user));
+        boolean flag = user.getPassword().equals(dto.getPassword());
+        // passwordEncoder.matches
 
         // 토큰을 각 섹션(Header, Payload, Signature)으로 분할
         String[] chunks = token.split("\\.");
@@ -119,6 +120,12 @@ public class UserServiceImpl implements UserService {
         .message(flag ? "SUCCESS" : "FAILURE")
         .token(flag ? token : "None")
         .build();
+    }
+
+    @Override
+    public Boolean existsUsername(String username) {
+        Integer count =repository.existsUsername(username);
+        return count  == 1;
     }
 
    
