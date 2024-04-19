@@ -24,7 +24,8 @@
     "redux-actions":"3.0.0",
     "redux-persist": "^6.0.0",
     "axios":"1.6.8",
-    "nookies":"2.5.2"
+    "nookies":"2.5.2",
+    "jwt-decode":"4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",

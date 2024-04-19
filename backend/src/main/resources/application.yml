@@ -1,7 +1,7 @@
 spring:
   datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://13.209.32.176:3306/bitcampdb?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      url: jdbc:mysql://13.209.32.176:3306/bitcampdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
       username: root
       password: root
   config:
@@ -25,7 +25,7 @@ spring:
         '[format_sql]': true
     show-sql: true
     defer-datasource-initialization: true
-    open-in-view: false
+    # open-in-view: true
   output:
     ansi:
       enabled: always

@@ -20,6 +20,7 @@ public class UserDto {
     private String email;
     private String regDate;
     private String modDate;
+    private String token;
 
     
 }

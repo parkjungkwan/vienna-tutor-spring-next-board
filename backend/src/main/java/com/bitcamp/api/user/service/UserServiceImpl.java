@@ -19,6 +19,8 @@ import com.bitcamp.api.user.model.User;
 import com.bitcamp.api.user.model.UserDto;
 import com.bitcamp.api.user.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Log4j2
 @RequiredArgsConstructor
 @Service 
@@ -96,13 +98,26 @@ public class UserServiceImpl implements UserService {
     }
 
     // SRP 에 따라 아이디 존재여부를 프론트에서 먼저 판단하고, 넘어옴 (시큐리티)
+    @Transactional
     @Override
     public Messenger login(UserDto dto) {
         boolean flag = repository.findByUsername(dto.getUsername()).get().getPassword().equals(dto.getPassword());
-       
+
+        String token = jwtProvider.createToken(dto);
+
+        // 토큰을 각 섹션(Header, Payload, Signature)으로 분할
+        String[] chunks = token.split("\\.");
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+
+        String header = new String(decoder.decode(chunks[0]));
+        String payload = new String(decoder.decode(chunks[1]));
+
+        log.info("Token Header : "+header);
+        log.info("Token payload : "+payload);
+        
         return Messenger.builder()
         .message(flag ? "SUCCESS" : "FAILURE")
-        .token(flag ? jwtProvider.createToken(dto) : "None")
+        .token(flag ? token : "None")
         .build();
     }
 

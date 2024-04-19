@@ -17,7 +17,7 @@ import java.util.List;
 public class User extends BaseEntity{
     @Id
     @Column(name = "user_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
@@ -27,6 +27,7 @@ public class User extends BaseEntity{
     private Long addressId;
     private String job;
     private String email;
+    private String token;
     
 
 

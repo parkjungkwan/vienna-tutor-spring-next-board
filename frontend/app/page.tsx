@@ -12,6 +12,7 @@ import { getAuth } from "./components/user/service/user-slice";
 import { login } from "./components/user/service/user-service";
 import { IUser } from "./components/user/model/user";
 import nookies,{ parseCookies, destroyCookie, setCookie } from 'nookies'
+import { jwtDecode } from "jwt-decode";
 
 
 export default function Home() {
@@ -45,7 +46,9 @@ export default function Home() {
         setCookie({},'token', auth.token, { httpOnly: false, path: '/' })
         console.log('서버에서 넘어온 메시지 '+parseCookies().message)
         console.log('서버에서 넘어온 토큰 '+parseCookies().token)
-        router.push('/pages/board/card')
+        console.log('토큰을 디코드한 내용 : ')
+        console.log(jwtDecode<any>(parseCookies().token))
+        router.push('/pages/board/list')
       }else{
         console.log('LOGIN FAIL')
       }

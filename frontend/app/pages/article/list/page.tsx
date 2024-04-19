@@ -9,6 +9,8 @@ import { NextPage } from "next";
 import { findAllArticles } from "@/app/components/article/service/article-service";
 import { getAllArticles } from "@/app/components/article/service/article-slice";
 import Columns from "@/app/components/article/module/columns";
+import MoveButton from "@/app/atoms/button/MoveButton";
+import { PG } from "@/app/components/common/enums/PG";
 // import React from "react";
 
 
@@ -18,14 +20,18 @@ const ArticleListPage: NextPage = ({data}:any) => {
     const dispatch = useDispatch()
     const allArticles: [] = useSelector(getAllArticles)
 
-    useEffect(() => {
-        dispatch(findAllArticles(1))
-    }, [])
+    // useEffect(() => {
+    //     dispatch(findAllArticles(1))
+    // }, [])
     
     return (<>
+
      <table  className="table-auto w-4/5 border-x-black" style={{margin: '50px auto'}}>
         <thead>
           <tr>
+            <td>
+              <MoveButton text={"글쓰기"} path={`${PG.ARTICLE}/save`} />
+            </td>
           </tr>
         </thead>
         <tbody>
@@ -33,12 +39,12 @@ const ArticleListPage: NextPage = ({data}:any) => {
         <td 
         align="center" className="w-full  bg-gray-400 border-black border-4 p-8 h-20 text-[20px]" 
         >
-       게시글 목록
+       게시글 목록 2
         </td>
     </tr>
     <tr>
         <td align="center"  className="h-300">
-     {allArticles && <DataGrid
+     {/* {allArticles && <DataGrid
         rows={allArticles}
         columns={Columns()}
         initialState={{
@@ -51,12 +57,14 @@ const ArticleListPage: NextPage = ({data}:any) => {
         pageSizeOptions={[5]}
         checkboxSelection
         disableRowSelectionOnClick
-      />}
+      />} */}
     </td>
     </tr>
        
         </tbody>
       </table>
+
+
     </>)
 }
 

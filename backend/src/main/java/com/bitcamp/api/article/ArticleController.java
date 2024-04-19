@@ -51,7 +51,7 @@ public class ArticleController {
         return ResponseEntity.ok(service.deleteById(id));
     }
     @GetMapping("/list")
-    public ResponseEntity<List<ArticleDto>> findAll(PageRequestVo vo) throws SQLException {
+    public ResponseEntity<List<ArticleDto>> findByBoardId(PageRequestVo vo) throws SQLException {
         return ResponseEntity.ok(service.findAll());
     }
     @GetMapping("/detail")

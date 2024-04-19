@@ -3,6 +3,9 @@ package com.bitcamp.api.user.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,6 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
     List<User> findUsersByJob(String job);
 
 
+    @Modifying
+    @Query("update users set :id")
+    public void  modifyTokenById(@Param("id") Long id);
     
     
 } 

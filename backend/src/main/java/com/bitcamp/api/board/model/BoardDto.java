@@ -14,8 +14,8 @@ import java.util.*;
 public class BoardDto {
 
     private long id;
-    private String boardName;
-    private String boardType;
+    private String title;
+    private String description;
     private String regDate;
     private String modDate;
     private List<Article> articles;
