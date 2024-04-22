@@ -101,6 +101,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Messenger login(UserDto dto) {
+        log.info("로그인 서비스로 들어온 파라미터 : "+dto);
         User user = repository.findByUsername(dto.getUsername()).get();
         String token = jwtProvider.createToken(entityToDto(user));
         boolean flag = user.getPassword().equals(dto.getPassword());

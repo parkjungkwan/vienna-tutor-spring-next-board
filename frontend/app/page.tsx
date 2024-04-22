@@ -68,16 +68,19 @@ export default function Home() {
     console.log('user ...' + JSON.stringify(user))
     dispatch(existsUsername(user.username))
       .then((res: any) => {
-        if (res.payload.message == true) {
-          dispatch(login())
-            .then((res: any) => {
-                setCookie({}, 'message', auth.message, { httpOnly: false, path: '/' })
-                setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
-                console.log('서버에서 넘어온 메시지 ' + parseCookies().message)
-                console.log('서버에서 넘어온 토큰 ' + parseCookies().token)
+        if (res.payload == true) {
+          dispatch(login(user))
+            .then((resp: any) => {
+                console.log('서버에서 넘어온 RES ' + JSON.stringify(resp))
+                console.log('서버에서 넘어온 메시지 1 ' + resp.payload.message)
+                console.log('서버에서 넘어온 토큰 1 ' + resp.payload.token)
+                setCookie({}, 'message', resp.payload.message, { httpOnly: false, path: '/' })
+                setCookie({}, 'token', resp.payload.token, { httpOnly: false, path: '/' })
+                console.log('서버에서 넘어온 메시지 2 ' + parseCookies().message)
+                console.log('서버에서 넘어온 토큰 2 ' + parseCookies().token)
                 console.log('토큰을 디코드한 내용 : ')
                 console.log(jwtDecode<any>(parseCookies().token))
-                router.push('/pages/board/list')
+                // router.push('/pages/board/list')
             })
             .catch((err: any) => {
               console.log('로그인 실패')
@@ -91,7 +94,7 @@ export default function Home() {
         }
       })
       .catch((err: any) => {
-
+        console.log('catch 로직 err 발생 : '+ `${err}`)
       })
       .finally(() => {
         console.log('최종적으로 반드시 이뤄져야 할 로직')

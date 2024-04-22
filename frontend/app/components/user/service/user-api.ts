@@ -25,6 +25,7 @@ export const findUserByIdAPI = async (id: number) =>{
 }
 
 export const loginAPI = async (user: IUser) =>{
+    console.log(` 로그인API 에 넘어온 파라미터 : ${JSON.stringify(user)}`)
     try{
         const response = await instance.post(`/users/login`,user)
         // Java 에서 Messenger.message 에 값을 담음

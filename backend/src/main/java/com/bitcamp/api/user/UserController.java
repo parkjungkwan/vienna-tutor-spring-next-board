@@ -71,7 +71,8 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Messenger> login(@RequestBody UserDto param) {
         log.info("::: login controller parameter ",param);
-        return ResponseEntity.ok(service.login(param));
+        Messenger messenger = service.login(param);
+        return ResponseEntity.ok(messenger);
     }
     @GetMapping("/exists")
     public ResponseEntity<Boolean> existsById(@RequestParam("id") long id) {
