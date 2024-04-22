@@ -16,9 +16,12 @@ function Header() {
   const [showProfile, setShowProfile] = useState(false)
 
   useEffect(() => {
-    if (parseCookies().accessToken) {
+    console.log('헤더 useEffect 쿠키 : ' + parseCookies().accessToken)
+    if (parseCookies().accessToken !== '') {
+      console.log('쿠키가 있어서 보임')
       setShowProfile(true)
     } else {
+      console.log('쿠키가 있어서 안보임')
       setShowProfile(false)
     }
   }, [parseCookies().accessToken])
@@ -48,17 +51,17 @@ function Header() {
           <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Home</span>
         </Link>
-        {showProfile && <button type="button" className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+        {!showProfile && <button type="button" className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
           <span className="sr-only">Open user menu</span>
           <img className="w-8 h-8 rounded-full" src="/public/img/user/profile.jpg" alt="user photo" />
         </button>}
-        {!showProfile &&
+        {showProfile &&
           <div className="flex px-4 py-3 float-end">
             <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
             <span className="block text-sm  text-gray-500 truncate dark:text-gray-400 mx-5">name@flowbite.com</span>
             <span 
             onClick={logoutHandler}
-            className="block text-sm  text-gray-500 truncate dark:text-gray-400"> Logout </span>
+            className="block text-sm  text-gray-500 truncate dark:text-gray-400"><a href="#">Logout</a>  </span>
           </div>
         }
         <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
