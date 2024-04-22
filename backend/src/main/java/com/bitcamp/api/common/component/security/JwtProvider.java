@@ -47,7 +47,7 @@ public class JwtProvider  {
         .subject("bitcamp")
         .claim("username", dto.getUsername())
         .claim("job", dto.getJob())
-        .claim("userId", dto.getId())
+        .claim("id", dto.getId())
         .compact();
         ;
 
@@ -58,8 +58,13 @@ public class JwtProvider  {
 
 
     public String extractTokenFromHeader(HttpServletRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'extractTokenFromHeader'");
+        String bearerToken = request.getHeader("Authorization");
+
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+
+        return null;
     }
 
     public String getPayload(String accessToken) {
