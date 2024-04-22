@@ -1,4 +1,4 @@
-package com.bitcamp.api.common.component;
+package com.bitcamp.api.common.component.pagination;
 
 public class QnaPageRequestVo {
 

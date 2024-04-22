@@ -12,6 +12,7 @@ import com.bitcamp.api.article.model.ArticleDto;
 import com.bitcamp.api.article.repository.ArticleRepository;
 import com.bitcamp.api.common.component.Messenger;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,6 +31,7 @@ public class ArticleServiceImpl implements ArticleService{
         .build();
     }
 
+    @Transactional
     @Override
     public Messenger deleteById(Long id) {
         return Messenger.builder()

@@ -1,4 +1,4 @@
-package com.bitcamp.api.common.component;
+package com.bitcamp.api.common.component.security;
 
 import com.bitcamp.api.user.model.UserDto;
 import com.bitcamp.api.user.repository.UserRepository;

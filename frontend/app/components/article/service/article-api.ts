@@ -1,4 +1,4 @@
-import { instance } from '@/app/components/common/configs/axios-config'
+import instance from '@/app/components/common/configs/axios-config'
 
 export const findAllArticlesAPI = async (page: number) =>{
     try{

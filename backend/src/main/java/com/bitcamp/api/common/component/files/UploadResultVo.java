@@ -1,4 +1,4 @@
-package com.bitcamp.api.common.component;
+package com.bitcamp.api.common.component.files;
 
 public class UploadResultVo {
 

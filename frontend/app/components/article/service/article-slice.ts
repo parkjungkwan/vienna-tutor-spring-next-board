@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { createSlice } from "@reduxjs/toolkit";
-import { IArticle } from '../model/article';
+import IArticle from '../model/article';
 import { initialState } from './article-init';
 import { findAllArticles, findArticleById } from './article-service';
 

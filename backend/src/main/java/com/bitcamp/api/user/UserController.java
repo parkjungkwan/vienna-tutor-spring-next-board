@@ -1,6 +1,6 @@
 package com.bitcamp.api.user;
 import com.bitcamp.api.common.component.Messenger;
-import com.bitcamp.api.common.component.PageRequestVo;
+import com.bitcamp.api.common.component.pagination.PageRequestVo;
 import com.bitcamp.api.user.model.UserDto;
 import com.bitcamp.api.user.service.UserService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

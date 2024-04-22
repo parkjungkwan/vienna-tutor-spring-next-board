@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.api.board.model.BoardDto;
 import com.bitcamp.api.board.service.BoardServiceImpl;
 import com.bitcamp.api.common.component.Messenger;
-import com.bitcamp.api.common.component.PageRequestVo;
+import com.bitcamp.api.common.component.pagination.PageRequestVo;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 

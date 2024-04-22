@@ -1,4 +1,4 @@
-package com.bitcamp.api.common.component;
+package com.bitcamp.api.common.component.pagination;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

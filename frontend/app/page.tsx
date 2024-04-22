@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import Link from "next/link";
-import { instance } from '@/app/components/common/configs/axios-config'
-import { API } from "./components/common/enums/API";
+
 import { useRouter } from "next/navigation";
 import AxiosConfig from "@/app/components/common/configs/axios-config";
 import { getAuth, getExistsUsername } from "./components/user/service/user-slice";
@@ -73,14 +72,14 @@ export default function Home() {
             .then((resp: any) => {
                 console.log('서버에서 넘어온 RES ' + JSON.stringify(resp))
                 console.log('서버에서 넘어온 메시지 1 ' + resp.payload.message)
-                console.log('서버에서 넘어온 토큰 1 ' + resp.payload.token)
+                console.log('서버에서 넘어온 토큰 1 ' + resp.payload.accessToken)
                 setCookie({}, 'message', resp.payload.message, { httpOnly: false, path: '/' })
-                setCookie({}, 'token', resp.payload.token, { httpOnly: false, path: '/' })
+                setCookie({}, 'accessToken', resp.payload.accessToken, { httpOnly: false, path: '/' })
                 console.log('서버에서 넘어온 메시지 2 ' + parseCookies().message)
-                console.log('서버에서 넘어온 토큰 2 ' + parseCookies().token)
+                console.log('서버에서 넘어온 토큰 2 ' + parseCookies().accessToken)
                 console.log('토큰을 디코드한 내용 : ')
-                console.log(jwtDecode<any>(parseCookies().token))
-                // router.push('/pages/board/list')
+                console.log(jwtDecode<any>(parseCookies().accessToken))
+                router.push('/pages/board/list')
             })
             .catch((err: any) => {
               console.log('로그인 실패')

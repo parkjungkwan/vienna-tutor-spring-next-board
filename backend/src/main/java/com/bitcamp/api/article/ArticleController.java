@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.api.article.model.ArticleDto;
 import com.bitcamp.api.article.service.ArticleServiceImpl;
 import com.bitcamp.api.common.component.Messenger;
-import com.bitcamp.api.common.component.PageRequestVo;
+import com.bitcamp.api.common.component.pagination.PageRequestVo;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
