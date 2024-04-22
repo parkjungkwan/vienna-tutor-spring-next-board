@@ -13,46 +13,46 @@ import { existsUsername, login } from "./components/user/service/user-service";
 import { IUser } from "./components/user/model/user";
 import nookies, { parseCookies, destroyCookie, setCookie } from 'nookies'
 import { jwtDecode } from "jwt-decode";
+import { gridColumnsTotalWidthSelector } from "@mui/x-data-grid";
 
 
 export default function Home() {
   const router = useRouter();
   const dispatch = useDispatch();
   const auth = useSelector(getAuth)
-  const formRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const [user, setUser] = useState({} as IUser)
   const [isWrongId, setIsWrongId] = useState(false)
   const [isTrueId, setIsTrueId] = useState(false)
   const [beforeSubmit, setBeforeSubmit] = useState(true)
   const [len, setLen] = useState('')
-
   const [isWrongPw, setIsWrongPW] = useState(false)
-
   const existsUsernameSelector = useSelector(getExistsUsername)
 
 
 
-  const handleUsername = (e: any) => {
-    const ID_CHECK = /^[a-zA-Z][a-zA-Z0-9]{5,12}$/g;
-    // 영어 대소문자로 시작하는 6 ~20자 의 영어 대소문자 또는 숫자 
-      setLen(e.target.value)
-      setBeforeSubmit(true)
-      if (ID_CHECK.test(len)) {
-        setIsWrongId(false)
-        setIsTrueId(true)
-        setUser({
-          ...user,
-          username: e.target.value
-        })
-        console.log('ID_CHECK 내용 : '+JSON.stringify(user))
-       
 
-      }else{
-        setIsWrongId(true)
-        setIsTrueId(false)
-   
-      }
+  const handleUsername = (e: any) => {
+    const ID_CHECK = /^[a-zA-Z][a-zA-Z0-9]{4,10}$/g;
+    // 영어 대소문자로 시작하는 6 ~20자 의 영어 대소문자 또는 숫자 
+    setLen(e.target.value)
+    setBeforeSubmit(true)
+    if (ID_CHECK.test(len)) {
+      setIsWrongId(false)
+      setIsTrueId(true)
+      setUser({
+        ...user,
+        username: e.target.value
+      })
+      console.log('ID_CHECK 내용 : ' + JSON.stringify(user))
+
+
+    } else {
+      setIsWrongId(true)
+      setIsTrueId(false)
+
+    }
   }
 
 
@@ -67,33 +67,64 @@ export default function Home() {
   const handleSubmit = () => {
     console.log('user ...' + JSON.stringify(user))
     dispatch(existsUsername(user.username))
+      .then((res: any) => {
+        if (res.payload.message == true) {
+          dispatch(login())
+            .then((res: any) => {
+                setCookie({}, 'message', auth.message, { httpOnly: false, path: '/' })
+                setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
+                console.log('서버에서 넘어온 메시지 ' + parseCookies().message)
+                console.log('서버에서 넘어온 토큰 ' + parseCookies().token)
+                console.log('토큰을 디코드한 내용 : ')
+                console.log(jwtDecode<any>(parseCookies().token))
+                router.push('/pages/board/list')
+            })
+            .catch((err: any) => {
+              console.log('로그인 실패')
+             })
+
+        }else{
+          console.log('아이디가 존재하지 않습니다')
+          setBeforeSubmit(false)
+          setIsWrongId(false)
+          setIsTrueId(false)
+        }
+      })
+      .catch((err: any) => {
+
+      })
+      .finally(() => {
+        console.log('최종적으로 반드시 이뤄져야 할 로직')
+      })
     // dispatch(login(user))
-     setBeforeSubmit(false)
-     setIsWrongId(false)
-     setIsTrueId(false)
-     if (formRef.current) {
-	    formRef.current.value = "";
-		}
-     
+    setBeforeSubmit(false)
+    setIsWrongId(false)
+    setIsTrueId(false)
+    if (passwordRef.current) {
+      passwordRef.current.value = "";
+    }
+
   }
 
-  useEffect(() => {
-    if (auth.message === 'SUCCESS') {
-      setCookie({}, 'message', auth.message, { httpOnly: false, path: '/' })
-      setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
-      console.log('서버에서 넘어온 메시지 ' + parseCookies().message)
-      console.log('서버에서 넘어온 토큰 ' + parseCookies().token)
-      console.log('토큰을 디코드한 내용 : ')
-      console.log(jwtDecode<any>(parseCookies().token))
-      router.push('/pages/board/list')
-    } else {
-      console.log('LOGIN FAIL')
-    }
-  }, [auth])
+  // useEffect(() => {
+  //   if (auth.message === 'SUCCESS') {
+  //     setCookie({}, 'message', auth.message, { httpOnly: false, path: '/' })
+  //     setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
+  //     console.log('서버에서 넘어온 메시지 ' + parseCookies().message)
+  //     console.log('서버에서 넘어온 토큰 ' + parseCookies().token)
+  //     console.log('토큰을 디코드한 내용 : ')
+  //     console.log(jwtDecode<any>(parseCookies().token))
+  //     router.push('/pages/board/list')
+  //   } else {
+  //     console.log('LOGIN FAIL')
+  //   }
+  // }, [auth])
+
+
 
 
   return (
-   
+
     <div className='margincenter w-4/5 my-[30px] border-double border-4'>
       <div className="text-3xl font-bold underline text-center">welcom to react world !!</div><br />
       <h2>ID: alamblot0</h2>
@@ -113,14 +144,14 @@ export default function Home() {
                 ID
               </label>
               <input
-              
+
                 onChange={handleUsername}
                 className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
                 type="text"
                 required
               />
             </div>
-            {isWrongId && len?.length > 1 &&(<pre>
+            {isWrongId && len?.length > 1 && (<pre>
               <h6 className='text-red-500' >
                 잘못된 아이디 입니다.
               </h6>
@@ -136,7 +167,7 @@ export default function Home() {
                 존재하지 않는 아이디 입니다.
               </h6>
             </pre>)}
-            
+
             <div className="mt-4 flex flex-col justify-between">
               <div className="flex justify-between">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -144,7 +175,7 @@ export default function Home() {
                 </label>
               </div>
               <input
-              ref ={formRef}
+                ref={passwordRef}
                 onChange={handlePassword}
                 className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
                 type="password"
@@ -214,7 +245,7 @@ export default function Home() {
       </div>
 
     </div>
-    
+
   )
 
 
