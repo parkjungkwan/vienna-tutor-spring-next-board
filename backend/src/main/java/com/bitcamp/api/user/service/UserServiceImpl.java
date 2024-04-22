@@ -108,20 +108,15 @@ public class UserServiceImpl implements UserService {
         // passwordEncoder.matches
 
         // 토큰을 각 섹션(Header, Payload, Signature)으로 분할
-        String[] chunks = accessToken.split("\\.");
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-
-        String header = new String(decoder.decode(chunks[0]));
-        String payload = new String(decoder.decode(chunks[1]));
-
-        log.info("Access Token Header : "+header);
-        log.info("Access Token payload : "+payload);
+        jwtProvider.getPayload(accessToken);
         
         return Messenger.builder()
         .message(flag ? "SUCCESS" : "FAILURE")
         .accessToken(flag ? accessToken : "None")
         .build();
     }
+
+   
 
     @Override
     public Boolean existsUsername(String username) {

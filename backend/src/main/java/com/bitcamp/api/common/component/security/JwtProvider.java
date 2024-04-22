@@ -18,6 +18,8 @@ import java.util.*;
 
 import javax.crypto.SecretKey;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -52,6 +54,26 @@ public class JwtProvider  {
         log.info("로그인 성공으로 발급된 토큰 : "+token);
 
         return token;
+    }
+
+
+    public String extractTokenFromHeader(HttpServletRequest request) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'extractTokenFromHeader'");
+    }
+
+    public String getPayload(String accessToken) {
+        String[] chunks = accessToken.split("\\.");
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+
+        String header = new String(decoder.decode(chunks[0]));
+        String payload = new String(decoder.decode(chunks[1]));
+
+        log.info("Access Token Header : "+header);
+        log.info("Access Token payload : "+payload);
+
+        // return new StringBuilder().append(header).append(payload).toString();
+        return payload;
     }
 
   
