@@ -80,6 +80,7 @@ export default function Home() {
                 console.log('토큰을 디코드한 내용 : ')
                 console.log(jwtDecode<any>(parseCookies().accessToken))
                 router.push('/pages/board/list')
+                router.refresh()
             })
             .catch((err: any) => {
               console.log('로그인 실패')
@@ -153,12 +154,12 @@ export default function Home() {
                 required
               />
             </div>
-            {isWrongId && len?.length > 1 && (<pre>
+            {isWrongId && len?.length > 0 && (<pre>
               <h6 className='text-red-500' >
                 잘못된 아이디 입니다.
               </h6>
             </pre>)}
-            {isTrueId && len?.length > 1 && (<pre>
+            {isTrueId && len?.length > 0 && (<pre>
               <h6 className='text-blue-500' >
                 올바른 아이디 입니다.
               </h6>

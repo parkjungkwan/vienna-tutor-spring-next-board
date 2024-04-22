@@ -68,23 +68,11 @@ public class UserController {
         return ResponseEntity.ok(service.findUsersByName(param.getName()));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Messenger> login(@RequestBody UserDto param) {
-        log.info("::: login controller parameter ",param);
-        Messenger messenger = service.login(param);
-        return ResponseEntity.ok(messenger);
-    }
+  
     @GetMapping("/exists")
     public ResponseEntity<Boolean> existsById(@RequestParam("id") long id) {
         return ResponseEntity.ok(service.existsById(id));
     }
 
-    @GetMapping("/exists-username")
-    public ResponseEntity<Boolean> existsUsername(@RequestParam("username") String username) {
-        log.info("existsUsernam 파라미터 정보 : "+username);
-        Boolean flag = service.existsUsername(username);
-        log.info("existsUsernam 결과 : "+flag);
-        return ResponseEntity.ok(flag);
-    }
 
 }

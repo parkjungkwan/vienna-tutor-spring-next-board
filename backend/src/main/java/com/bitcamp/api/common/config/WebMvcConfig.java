@@ -18,7 +18,12 @@ public class WebMvcConfig implements WebMvcConfigurer{
     public void addInterceptors(@SuppressWarnings("null") InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/favicon.ico");
+                // .addPathPatterns("/api/users/**")
+                .excludePathPatterns("/api/auth/**")
+                
+                
+                
+                ;
     }
     
 }

@@ -14,37 +14,44 @@ import com.bitcamp.api.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuthInterceptor implements  HandlerInterceptor{
+public class AuthInterceptor implements HandlerInterceptor {
 
     private final JwtProvider jwtProvider;
     private final UserRepository repository;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+    public boolean preHandle(HttpServletRequest request, 
+    HttpServletResponse response, 
+    Object handler)
             throws Exception {
 
-                String token = jwtProvider.extractTokenFromHeader(request);
-
-                if(ObjectUtils.isEmpty(token) ){
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                    return false;
-                }
-
-                String strId = jwtProvider.getPayload(token);
-                Long id = Long.parseLong(strId);
-
-                Optional<User> user = repository.findById(id);
-
-                if(ObjectUtils.isEmpty(user)){
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                    return false;
-                }
+        String token = jwtProvider.extractTokenFromHeader(request);
+        
+        log.info("2- 인터셉터 토큰 로그 Bearer 포함 : {}", token);
+        // if (ObjectUtils.isEmpty(token)) {
+        //     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        //     return false;
+        // }
+        String payload = jwtProvider.getPayload(token);
+        int index = payload.lastIndexOf("id\":")+4;
+        String test = payload.substring(index, payload.indexOf("}", index));
+        log.info("3- payload test : {}", test);
+        Long id = Long.parseLong(test);
        
-
-            return true;
+        log.info("인터셉터 토큰 ID 로그 : {}", id);
+        Optional<User> user = repository.findById(id);
+        log.info("마지막 결론 : {}", user.toString());
+        if (ObjectUtils.isEmpty(user)) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
+        }
+        
+        return true;
     }
 
     @Override
@@ -53,7 +60,6 @@ public class AuthInterceptor implements  HandlerInterceptor{
         // TODO Auto-generated method stub
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
-
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,

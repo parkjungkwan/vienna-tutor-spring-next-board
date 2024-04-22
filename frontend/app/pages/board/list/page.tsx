@@ -12,18 +12,18 @@ export default function BoardCards(){
 
 
 
-    // const dispatch = useDispatch()
-    // const allBoards = useSelector(getAllBoards);
-    // useEffect(()=>{
-    //     dispatch(findAllBoards(1))
-    // }, [allBoards])
+    const dispatch = useDispatch()
+    const allBoards = useSelector(getAllBoards);
+    useEffect(()=>{
+        dispatch(findAllBoards(1))
+    }, [allBoards])
     
 
     return (<>
     
    <h1>게시판 목록 들어옴</h1>
 
-   {/* {allBoards.map((board: IBoard)=>(<CardButton id={board.id} />))} */}
+   {allBoards?.map((board: IBoard)=>(<CardButton id={board.id} />))}
 
     </>)
 }

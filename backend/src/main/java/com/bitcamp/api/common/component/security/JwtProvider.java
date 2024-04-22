@@ -4,6 +4,7 @@ import com.bitcamp.api.user.model.UserDto;
 import com.bitcamp.api.user.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import lombok.RequiredArgsConstructor;
@@ -59,12 +60,7 @@ public class JwtProvider  {
 
     public String extractTokenFromHeader(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-
-        return null;
+        return bearerToken != null && bearerToken.startsWith("Bearer ") ? bearerToken.substring(7) : "";
     }
 
     public String getPayload(String accessToken) {
@@ -74,14 +70,17 @@ public class JwtProvider  {
         String header = new String(decoder.decode(chunks[0]));
         String payload = new String(decoder.decode(chunks[1]));
 
-        log.info("Access Token Header : "+header);
-        log.info("Access Token payload : "+payload);
+        log.info("Jwt 프로바이더 Access Token Header : "+header);
+        log.info("Jwt 프로바이더 Access Token payload : "+payload);
 
-        // return new StringBuilder().append(header).append(payload).toString();
         return payload;
     }
 
-  
-    
-    
+    public Long getId(String accessToken) {
+        Jws<Claims> claimsJws = Jwts.parser().verifyWith(secretKey).build()
+                .parseSignedClaims(accessToken);
+        String IDstr = claimsJws.getPayload().getId();
+        log.info("Jwt 프로바이더 Access Token ID : "+IDstr);
+        return Long.parseLong(IDstr);
+    }
 }
