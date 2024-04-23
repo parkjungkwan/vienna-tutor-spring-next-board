@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
         // passwordEncoder.matches
 
         // 토큰을 각 섹션(Header, Payload, Signature)으로 분할
-        jwtProvider.getPayload(accessToken);
+        jwtProvider.printPayload(accessToken);
         
         return Messenger.builder()
         .message(flag ? "SUCCESS" : "FAILURE")

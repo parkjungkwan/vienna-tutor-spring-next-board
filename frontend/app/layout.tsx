@@ -31,7 +31,7 @@ export default function RootLayout({
        
         <div className="mt-100">
         <ReduxProvider > 
-        {parseCookies().message === 'SUCCESS' && <Header/>}
+        <Header/>
           {children}
           
           </ReduxProvider>

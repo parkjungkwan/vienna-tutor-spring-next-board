@@ -11,6 +11,8 @@ import com.bitcamp.api.user.model.User;
 import com.bitcamp.api.common.component.security.JwtProvider;
 import com.bitcamp.api.user.repository.UserRepository;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,28 +31,31 @@ public class AuthInterceptor implements HandlerInterceptor {
     HttpServletResponse response, 
     Object handler)
             throws Exception {
+                
 
         String token = jwtProvider.extractTokenFromHeader(request);
+        log.info("1- 인터셉터 토큰 로그 Bearer 포함 : {}", token);
         
-        log.info("2- 인터셉터 토큰 로그 Bearer 포함 : {}", token);
-        // if (ObjectUtils.isEmpty(token)) {
-        //     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        //     return false;
-        // }
-        String payload = jwtProvider.getPayload(token);
-        int index = payload.lastIndexOf("id\":")+4;
-        String test = payload.substring(index, payload.indexOf("}", index));
-        log.info("3- payload test : {}", test);
-        Long id = Long.parseLong(test);
+        if (ObjectUtils.isEmpty(token)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return false;
+        }
+
+        Long id = jwtProvider.getPayload(token).get("id", Long.class);
+
+        log.info("2- 인터셉터 사용자 id : {}", id);
        
-        log.info("인터셉터 토큰 ID 로그 : {}", id);
         Optional<User> user = repository.findById(id);
-        log.info("마지막 결론 : {}", user.toString());
-        if (ObjectUtils.isEmpty(user)) {
+
+        log.info(" 3- 인터셉터 사용자 정보 {} ", user);
+
+        if (!user.isPresent()) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
-        
+
+        log.info(" 4- 인터셉터 최종 여부 {} ", true);
+   
         return true;
     }
 

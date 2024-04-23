@@ -60,10 +60,10 @@ public class JwtProvider  {
 
     public String extractTokenFromHeader(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        return bearerToken != null && bearerToken.startsWith("Bearer ") ? bearerToken.substring(7) : "";
+        return bearerToken != null && bearerToken.startsWith("Bearer ") ? bearerToken.substring(7) : "undefined";
     }
 
-    public String getPayload(String accessToken) {
+    public void printPayload(String accessToken) {
         String[] chunks = accessToken.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
@@ -72,15 +72,9 @@ public class JwtProvider  {
 
         log.info("Jwt 프로바이더 Access Token Header : "+header);
         log.info("Jwt 프로바이더 Access Token payload : "+payload);
-
-        return payload;
     }
 
-    public Long getId(String accessToken) {
-        Jws<Claims> claimsJws = Jwts.parser().verifyWith(secretKey).build()
-                .parseSignedClaims(accessToken);
-        String IDstr = claimsJws.getPayload().getId();
-        log.info("Jwt 프로바이더 Access Token ID : "+IDstr);
-        return Long.parseLong(IDstr);
+    public Claims getPayload(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
     }
 }
