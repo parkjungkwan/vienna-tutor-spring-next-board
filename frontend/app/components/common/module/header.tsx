@@ -53,7 +53,7 @@ function Header() {
         </Link>
         {!showProfile && <button type="button" className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
           <span className="sr-only">Open user menu</span>
-          <img className="w-8 h-8 rounded-full" src="/public/img/user/profile.jpg" alt="user photo" />
+          <img className="w-8 h-8 rounded-full" src="/img/user/profile.jpg" alt="user photo" />
         </button>}
         {showProfile &&
           <div className="flex px-4 py-3 float-end">

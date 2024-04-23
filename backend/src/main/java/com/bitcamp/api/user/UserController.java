@@ -74,5 +74,11 @@ public class UserController {
         return ResponseEntity.ok(service.existsById(id));
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<Boolean> logout() {
+        
+        return ResponseEntity.ok(service.existsById(id));
+    }
+
 
 }

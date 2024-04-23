@@ -1,5 +1,5 @@
 export interface IBoard{
-    id? : number
+    boardId? : number
     title? : string
     description? : string
     regDate? : string

@@ -15,7 +15,8 @@ public class Board extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "board_id")
+    private Long boardId;
     private String title;
     private String description;
 
@@ -23,8 +24,8 @@ public class Board extends BaseEntity{
     private List<Article> articles;
 
     @Builder(builderMethodName = "builder")
-    public Board(long id, String title, String description) {
-        this.id = id;
+    public Board(long boardId, String title, String description) {
+        this.boardId = boardId;
         this.title = title;
         this.description = description;
     }

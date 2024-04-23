@@ -10,7 +10,7 @@ import com.bitcamp.api.common.service.QueryService;
 public interface BoardService extends CommandService<BoardDto>, QueryService<BoardDto>{
     default Board dtoToEntity(BoardDto dto){
         return Board.builder()
-        .id(dto.getId())
+        .boardId(dto.getBoardId())
         .title(dto.getTitle())
         .description(dto.getDescription())
         .build();
@@ -18,7 +18,7 @@ public interface BoardService extends CommandService<BoardDto>, QueryService<Boa
 
     default BoardDto entityToDto(Board entity){
         return BoardDto.builder()
-        .id(entity.getId())
+        .boardId(entity.getBoardId())
         .title(entity.getTitle())
         .description(entity.getDescription())
         // .regDate(entity.getRegDate().toString())

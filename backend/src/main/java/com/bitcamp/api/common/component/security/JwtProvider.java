@@ -1,7 +1,9 @@
 package com.bitcamp.api.common.component.security;
 
+import com.bitcamp.api.user.model.User;
 import com.bitcamp.api.user.model.UserDto;
 import com.bitcamp.api.user.repository.UserRepository;
+import com.bitcamp.api.user.service.UserServiceImpl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -16,6 +18,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Stream;
 
 import javax.crypto.SecretKey;
 import io.jsonwebtoken.security.Keys;
@@ -32,6 +35,9 @@ public class JwtProvider  {
 
     private final SecretKey secretKey;
     Instant expiredDate = Instant.now().plus(1, ChronoUnit.DAYS);
+
+    // private final UserRepository repository;
+    // private final UserServiceImpl service;
 
 
     public JwtProvider(@Value("${jwt.secret}") String secretKey) {
@@ -59,7 +65,9 @@ public class JwtProvider  {
 
 
     public String extractTokenFromHeader(HttpServletRequest request) {
+        log.info("프론트에서 넘어온 Request getServletPath 값 : {}", request.getServletPath());
         String bearerToken = request.getHeader("Authorization");
+        log.info("프론트에서 넘어온 토큰 값 : {}", bearerToken);
         return bearerToken != null && bearerToken.startsWith("Bearer ") ? bearerToken.substring(7) : "undefined";
     }
 
@@ -77,4 +85,21 @@ public class JwtProvider  {
     public Claims getPayload(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
     }
+
+    public UserDto getUserDto(HttpServletRequest request) {
+
+        Long id = Stream.of(request)
+        .map(i -> extractTokenFromHeader(i))
+        .filter(token->!token.equals("undefined"))
+        .peek(token-> log.info("1- 인터셉터 토큰 로그 Bearer 포함 : {}", token))
+        .map(user-> getPayload(user).get("id", Long.class))
+        .findAny()
+        .get()
+        ;
+        Optional<User> user = repository.findById(id);
+
+        return service.entityToDto(user.get());
+     
+    }
+
 }

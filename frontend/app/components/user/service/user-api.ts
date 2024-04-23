@@ -38,6 +38,7 @@ export const loginAPI = async (user: IUser) =>{
 
 export const existsUsernameAPI = async (username: string) => {
     try{
+        console.log(await instance().get(`/auth/exists-username`,{params: {username}}))
         const response = await instance().get(`/auth/exists-username`,{params: {username}})
         console.log('existsUsernameAPI 결과: '+ response.data)
         return response.data
@@ -49,7 +50,7 @@ export const existsUsernameAPI = async (username: string) => {
 
 export const logoutAPI = async () => {
     try{
-        const response = await instance().get(`/users/logout`,{params: {}})
+        const response = await instance().get(`/users/logout`)
         console.log('logoutAPI 결과: '+ response.data)
         return response.data
     }catch(error){

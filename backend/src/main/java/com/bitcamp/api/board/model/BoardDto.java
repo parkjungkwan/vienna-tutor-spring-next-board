@@ -13,7 +13,7 @@ import java.util.*;
 @NoArgsConstructor
 public class BoardDto {
 
-    private long id;
+    private Long boardId;
     private String title;
     private String description;
     private String regDate;

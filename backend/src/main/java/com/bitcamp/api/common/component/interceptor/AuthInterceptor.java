@@ -1,6 +1,7 @@
 package com.bitcamp.api.common.component.interceptor;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.lang.Nullable;
@@ -33,30 +34,42 @@ public class AuthInterceptor implements HandlerInterceptor {
             throws Exception {
                 
 
-        String token = jwtProvider.extractTokenFromHeader(request);
-        log.info("1- 인터셉터 토큰 로그 Bearer 포함 : {}", token);
+        // String token = jwtProvider.extractTokenFromHeader(request);
+        // log.info("1- 인터셉터 토큰 로그 Bearer 포함 : {}", token);
         
-        if (ObjectUtils.isEmpty(token)) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return false;
-        }
+        // if (token.equals("undefined")) {
+        //     response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        //     return false;
+        // }
 
-        Long id = jwtProvider.getPayload(token).get("id", Long.class);
+        // Long id = jwtProvider.getPayload(token).get("id", Long.class);
 
-        log.info("2- 인터셉터 사용자 id : {}", id);
+        // log.info("2- 인터셉터 사용자 id : {}", id);
        
-        Optional<User> user = repository.findById(id);
+        // Optional<User> user = repository.findById(id);
 
-        log.info(" 3- 인터셉터 사용자 정보 {} ", user);
+        // log.info(" 3- 인터셉터 사용자 정보 {} ", user);
 
-        if (!user.isPresent()) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
-        }
+        // if (!user.isPresent()) {
+        //     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        //     return false;
+        // }
 
-        log.info(" 4- 인터셉터 최종 여부 {} ", true);
-   
-        return true;
+        // log.info(" 4- 인터셉터 최종 여부 {} ", true);
+
+
+        return Stream.of(request)
+        .map(i -> jwtProvider.extractTokenFromHeader(i))
+        .filter(token->!token.equals("undefined"))
+        .peek(token-> log.info("1- 인터셉터 토큰 로그 Bearer 포함 : {}", token))
+        .map(user-> jwtProvider.getPayload(user).get("id", Long.class))
+        .map(id->  repository.findById(id))
+        .filter(id-> id.isPresent())
+        .peek(id-> log.info(" 2- 인터셉터 사용자 ID : {} ", id))
+        .findFirst()
+        .isPresent();
+
+        
     }
 
     @Override
