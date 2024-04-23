@@ -36,9 +36,6 @@ public class JwtProvider  {
     private final SecretKey secretKey;
     Instant expiredDate = Instant.now().plus(1, ChronoUnit.DAYS);
 
-    // private final UserRepository repository;
-    // private final UserServiceImpl service;
-
 
     public JwtProvider(@Value("${jwt.secret}") String secretKey) {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
@@ -86,20 +83,6 @@ public class JwtProvider  {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
     }
 
-    public UserDto getUserDto(HttpServletRequest request) {
-
-        Long id = Stream.of(request)
-        .map(i -> extractTokenFromHeader(i))
-        .filter(token->!token.equals("undefined"))
-        .peek(token-> log.info("1- 인터셉터 토큰 로그 Bearer 포함 : {}", token))
-        .map(user-> getPayload(user).get("id", Long.class))
-        .findAny()
-        .get()
-        ;
-        Optional<User> user = repository.findById(id);
-
-        return service.entityToDto(user.get());
-     
-    }
+  
 
 }

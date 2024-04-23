@@ -124,6 +124,12 @@ public class UserServiceImpl implements UserService {
         return count  == 1;
     }
 
+    @Override
+    public Messenger logout(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'logout'");
+    }
+
    
     
 }
