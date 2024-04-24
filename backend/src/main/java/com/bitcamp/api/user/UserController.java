@@ -1,13 +1,16 @@
 package com.bitcamp.api.user;
 import com.bitcamp.api.common.component.Messenger;
 import com.bitcamp.api.common.component.pagination.PageRequestVo;
+import com.bitcamp.api.common.component.security.JwtProvider;
 import com.bitcamp.api.user.model.UserDto;
 import com.bitcamp.api.user.service.UserService;
+
+import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
+import java.util.stream.Stream;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +26,7 @@ import java.util.*;
 @RequestMapping(path = "/api/users")
 public class UserController {
     private final UserService service;
+    private final JwtProvider jwtProvider;
 
 
     @SuppressWarnings("static-access")
@@ -76,10 +80,8 @@ public class UserController {
 
     @GetMapping("/logout")
     public ResponseEntity<Boolean> logout(@RequestHeader("Authorization") String accessToken) {
-
-        log.info("logout request : {}", accessToken);
-        Long id = 1L;
-        Boolean flag = service.logout(id);
+        log.info("1- logout request : {}", accessToken);
+        var flag = service.logout(accessToken); // 토큰이 있으면 false, 없으면 true
         return ResponseEntity.ok(flag);
     }
 

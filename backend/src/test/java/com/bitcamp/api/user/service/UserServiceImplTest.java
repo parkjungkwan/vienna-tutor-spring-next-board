@@ -14,7 +14,6 @@ import com.bitcamp.api.user.repository.UserRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 
@@ -62,9 +61,9 @@ public class UserServiceImplTest {
     @Test
     public void 사용자_전체_검색()throws Exception {
        
-        List<User> users = getList();
+        var users = getList();
         BDDMockito.given(repository.findAll()).willReturn(users);
-        List<UserDto> list = service.findAll();
+        var list = service.findAll();
         assertThat(list.size())
         .isEqualTo(3);
         

@@ -20,8 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
 
     @Modifying
-    @Query("update users set id = :id where id = :id")
-    public void  modifyTokenById(@Param("id") Long id);
+    @Query("update users set token = :token where id = :id")
+    public void  modifyTokenById(@Param("id") Long id, @Param("token") String token);
 
     @Query("select count(id) as count from users where username = :username")
     Integer existsUsername(@Param("username") String username);

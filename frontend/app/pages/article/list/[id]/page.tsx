@@ -20,9 +20,9 @@ const ArticleListPage: NextPage = ({data}:any) => {
     const dispatch = useDispatch()
     const allArticles: [] = useSelector(getAllArticles)
 
-    // useEffect(() => {
-    //     dispatch(findAllArticles(1))
-    // }, [])
+    useEffect(() => {
+        dispatch(findAllArticles(1))
+    }, [])
     
     return (<>
 
@@ -44,7 +44,7 @@ const ArticleListPage: NextPage = ({data}:any) => {
     </tr>
     <tr>
         <td align="center"  className="h-300">
-     {/* {allArticles && <DataGrid
+     {allArticles && <DataGrid
         rows={allArticles}
         columns={Columns()}
         initialState={{
@@ -57,7 +57,7 @@ const ArticleListPage: NextPage = ({data}:any) => {
         pageSizeOptions={[5]}
         checkboxSelection
         disableRowSelectionOnClick
-      />} */}
+      />}
     </td>
     </tr>
        

@@ -79,8 +79,8 @@ public class JwtProvider  {
         log.info("Jwt 프로바이더 Access Token payload : "+payload);
     }
 
-    public Claims getPayload(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+    public Claims getPayload(String accessToken) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(accessToken).getPayload();
     }
 
   

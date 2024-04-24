@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Messenger save(UserDto dto) {
-        User ent = repository.save(dtoToEntity(dto));
+        var ent = repository.save(dtoToEntity(dto));
         System.out.println(" ============ UserServiceImpl save instanceof =========== ");
         System.out.println((ent instanceof User) ? "SUCCESS" : "FAILURE");
         return Messenger.builder()
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Messenger modify(UserDto dto) {
-        User ent = repository.save(dtoToEntity(dto));
+        var ent = repository.save(dtoToEntity(dto));
         log.info(" ============ BoardServiceImpl modify Entity Debug =========== ");
         log.info(ent);
         System.out.println((ent instanceof User) ? "SUCCESS" : "FAILURE");
@@ -102,9 +102,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Messenger login(UserDto dto) {
         log.info("로그인 서비스로 들어온 파라미터 : "+dto);
-        User user = repository.findByUsername(dto.getUsername()).get();
-        String accessToken = jwtProvider.createToken(entityToDto(user));
-        boolean flag = user.getPassword().equals(dto.getPassword());
+        var user = repository.findByUsername(dto.getUsername()).get();
+        var accessToken = jwtProvider.createToken(entityToDto(user));
+        var flag = user.getPassword().equals(dto.getPassword());
         // passwordEncoder.matches
 
         // 토큰을 각 섹션(Header, Payload, Signature)으로 분할
@@ -120,14 +120,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean existsUsername(String username) {
-        Integer count =repository.existsUsername(username);
+        var count =repository.existsUsername(username);
         return count  == 1;
     }
-
+    @Transactional
     @Override
-    public Boolean logout(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logout'");
+    public Boolean logout(String accessToken) {
+
+        Long id = 0L;
+        String deltetedToken = "";
+        repository.modifyTokenById(id, deltetedToken);
+        return repository.findById(id).get().getToken().equals("");
+
     }
 
    

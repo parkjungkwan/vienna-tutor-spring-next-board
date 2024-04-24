@@ -10,9 +10,9 @@ import java.util.List;
 
 @Entity(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 @Builder
 @AllArgsConstructor
+@Getter
 @Setter
 public class User extends BaseEntity{
     @Id
@@ -50,4 +50,6 @@ public class User extends BaseEntity{
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }
