@@ -28,6 +28,7 @@ public class ArticleServiceImpl implements ArticleService{
         System.out.println((ent instanceof Article) ? "SUCCESS" : "FAILURE");
         return Messenger.builder()
         .message((ent instanceof Article) ? "SUCCESS" : "FAILURE")
+        .id(ent.getBoard().getBoardId())
         .build();
     }
 

@@ -25,7 +25,8 @@
     "redux-persist": "^6.0.0",
     "axios":"1.6.8",
     "nookies":"2.5.2",
-    "jwt-decode":"4.0.0"
+    "jwt-decode":"4.0.0",
+    "react-hook-form":"7.51.3"
   },
   "devDependencies": {
     "@types/node": "^20",

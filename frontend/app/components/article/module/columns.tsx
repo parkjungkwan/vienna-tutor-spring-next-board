@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import Link from "next/link";
 import { GridColDef } from "@mui/x-data-grid";
 import { ArticleColumn } from "../model/aritlcle-colums";
 
@@ -41,7 +42,23 @@ export default function ArticleColumns(): GridColDef[]{
             field: 'registerDate',
             headerName: '등록일',
             renderCell: ({row}:CellType) =>  <Typography textAlign="center" sx={{fontSize:"1.5rem"}}>  {row.regDate}</Typography>
-            }
+            },
+            {
+                flex: 0.04,
+                minWidth: 30,
+                sortable: false,
+                field: 'update',
+                headerName: '수정',
+                renderCell: ({row}:CellType) => <Link href={""}> {<Typography textAlign="center" sx={{fontSize:"1.5rem"}}>  수정 </Typography>} </Link>
+                },
+                {
+                    flex: 0.04,
+                    minWidth: 30,
+                    sortable: false,
+                    field: 'delete',
+                    headerName: '삭제',
+                    renderCell: ({row}:CellType) => <Link href={""}>  {<Typography textAlign="center" sx={{fontSize:"1.5rem"}}> 삭제 </Typography>}</Link>
+                    },
     ]
 
 }
