@@ -54,7 +54,10 @@ export default function ArticleColumns(): GridColDef[] {
             field: 'delete',
             headerName: 'DELETE',
             renderCell: ({ row }: CellType) =>
-                <button className="btn overflow-hidden relative w-full h-full bg-blue-500 text-white rounded-xl font-bold uppercase -- before:block before:absolute before:h-full before:w-1/2 before:rounded-full
+                <span style={{ cursor: "pointer" , textDecoration: "underline"}}
+            className="btn underline-offset-4 
+            focus:outline-none focus:ring focus:ring-violet-300
+            overflow-hidden relative w-full h-full font-bold -- before:block before:absolute before:h-full before:w-1/2 before:rounded-full
             before:bg-pink-400 before:top-0 before:left-1/4 before:transition-transform before:opacity-0 before:hover:opacity-100 hover:text-200 hover:before:animate-ping transition-all duration-300"
                     onClick={() => {
                         confirm("article을 삭제합니다.")
@@ -62,7 +65,7 @@ export default function ArticleColumns(): GridColDef[] {
                         dispatch(deleteArticle(row.articleId))
                         location.reload(); //새로고침
                     }
-                    }> DELETE</button>
+                    }> Delete</span>
         }
                 
     ]
