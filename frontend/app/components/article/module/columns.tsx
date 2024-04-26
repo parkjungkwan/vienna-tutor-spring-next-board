@@ -20,7 +20,7 @@ export default function ArticleColumns(): GridColDef[] {
             sortable: false,
             field: 'articleId',
             headerName: 'No.',
-            renderCell: ({ row }: CellType) => <Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {row.articleId}</Typography>
+            renderCell: ({ row }: CellType) => <Typography textAlign="center" style={{cursor:""}} sx={{ fontSize: "1.5rem" }}>  {row.articleId}</Typography>
         },
         {
             flex: 0.04,
@@ -28,7 +28,11 @@ export default function ArticleColumns(): GridColDef[] {
             sortable: false,
             field: 'title',
             headerName: '제목',
-            renderCell: ({ row }: CellType) => <Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {row.title}</Typography>
+            renderCell: ({ row }: CellType) => 
+            <Link href={`/pages/article/detail/${row.articleId}`} style={{ cursor: "pointer" , textDecoration: "underline"}}>
+            <Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {row.title}</Typography>
+            </Link>
+
         },
         {
             flex: 0.04,
@@ -54,7 +58,7 @@ export default function ArticleColumns(): GridColDef[] {
             field: 'delete',
             headerName: 'DELETE',
             renderCell: ({ row }: CellType) =>
-                <span style={{ cursor: "pointer" , textDecoration: "underline"}}
+                <div style={{ cursor: "pointer" , textDecoration: "underline"}}
             className="btn underline-offset-4 
             focus:outline-none focus:ring focus:ring-violet-300
             overflow-hidden relative w-full h-full font-bold -- before:block before:absolute before:h-full before:w-1/2 before:rounded-full
@@ -65,7 +69,7 @@ export default function ArticleColumns(): GridColDef[] {
                         dispatch(deleteArticle(row.articleId))
                         location.reload(); //새로고침
                     }
-                    }> Delete</span>
+                    }> Delete</div>
         }
                 
     ]
