@@ -46,6 +46,7 @@ const ArticleListPage: NextPage = ({ data }: any) => {
           <td align="center" className="h-300">
             {allArticles && <DataGrid
               rows={allArticles}
+              getRowId={(row) => row.articleId}
               columns={Columns()}
               initialState={{
                 pagination: {

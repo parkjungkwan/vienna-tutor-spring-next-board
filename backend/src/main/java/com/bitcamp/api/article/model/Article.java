@@ -21,6 +21,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @Entity(name = "articles")
@@ -29,7 +30,7 @@ public class Article extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
-    private Long id;
+    private Long articleId;
     private String title;
     private String content;
 
@@ -41,9 +42,9 @@ public class Article extends BaseEntity{
     @JoinColumn(name = "board_id")
     private Board board;
 
-    public static Article of(Long id,String title, String content){
+    public static Article of(Long articleId,String title, String content){
         Article article = new Article();
-        article.id = id;
+        article.articleId = articleId;
         article.title = title;
         article.content = content;
 

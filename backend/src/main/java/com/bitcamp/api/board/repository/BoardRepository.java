@@ -10,6 +10,6 @@ import com.bitcamp.api.board.model.Board;
 @Repository
 public interface BoardRepository  extends JpaRepository<Board, Long>{
 
-    List<Board> findAllOrderByContent();
+    List<Board> findAllByOrderByContent();
     
 }

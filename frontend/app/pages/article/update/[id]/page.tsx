@@ -15,12 +15,11 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from "react-redux";
 import { parseCookies } from "nookies";
 import { useSelector } from "react-redux";
-import { saveArticle } from "@/app/components/article/service/article-service";
 // import React from "react";
 
 
-export default function WriteArticlePage ()  {
-  const dispatch = useDispatch()
+export default function UpdateArticlePage ()  {
+  const dispatch = useDispatch
   const router = useRouter()
   //const boardSelector = useSelector(getAllBoards)
 
@@ -47,19 +46,17 @@ export default function WriteArticlePage ()  {
 
   const onSubmit = (data: any) => {
     alert(JSON.stringify(data))
-    dispatch(saveArticle(data))
-    .then((res: any)=>{
-      //const data = res.payload
-      console.log(`게시글 작성 완료 ${JSON.stringify(res)}`)
-      const boardId = res.meta.arg.boardId;
-      router.push(`/pages/article/list/${boardId}`)
+    //dispatch(saveArticle(data))
+    // .then((res: any)=>{
+    //   const data = res.payload
+    //   alert(`게시글 작성 완료 ${data}`)
+    //   const boardId = data.boardId
+    //   router.push(`/article/list/${boardId}`)
 
 
       
-    })
-    .catch((err: any)=>{
-      console.log(`글작성 에러 발생 : ${err}`)
-    });
+    // })
+    // .catch((err: any)=>{});
 
   }
 
@@ -92,10 +89,7 @@ export default function WriteArticlePage ()  {
 
     <div className="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl">
       {MyTypography('Article 작성', "1.5rem")}
-      <input
-       {...register('writerId', {required: true})}
-      type="hidden" value={jwtDecode<any>(parseCookies().accessToken).id} readOnly/>
-     
+      <input type="hidden" value={jwtDecode<any>(parseCookies().accessToken).id} readOnly/>
       <input 
       {...register('title', {required: true, maxLength: 30})}
       className="title bg-gray-100 border border-gray-300 p-2 mb-4 outline-none" placeholder="Title" type="text" name="title" />

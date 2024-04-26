@@ -27,7 +27,7 @@ public class ArticleServiceImplTest {
     private ArticleRepository repository;
     @BeforeEach
     void setup() {
-        this.service = new ArticleServiceImpl(repository);
+        this.service = new ArticleServiceImpl(repository, null, null);
     }
 
     @BeforeEach
@@ -66,9 +66,9 @@ public class ArticleServiceImplTest {
     }
     private List<Article> getList() {
         return Arrays.asList(
-            Article.builder().id(1L).title("유관순").content("유관순은 3.1운동 주역이었다").build(),
-            Article.builder().id(2L).title("김구").content("김구는 임시정부 주역이었다").build(),
-            Article.builder().id(3L).title("윤봉길").content("윤봉길은 독립운동가이다").build()
+            Article.builder().articleId(1L).title("유관순").content("유관순은 3.1운동 주역이었다").build(),
+            Article.builder().articleId(2L).title("김구").content("김구는 임시정부 주역이었다").build(),
+            Article.builder().articleId(3L).title("윤봉길").content("윤봉길은 독립운동가이다").build()
         );
     }
 

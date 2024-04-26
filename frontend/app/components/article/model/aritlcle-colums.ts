@@ -1,5 +1,5 @@
 export interface ArticleColumn{
-    id? : number
+    articleId? : number
     title? : string
     content? : string
     writerId? : number

@@ -1,5 +1,5 @@
 export default interface IArticle{
-    id? : number
+    articleId? : number
     title? : string
     content? : string
     writerId? : number

@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
 
     private final JwtProvider jwtProvider;
-
+    @Transactional
     @Override
     public Messenger save(UserDto dto) {
         var ent = repository.save(dtoToEntity(dto));

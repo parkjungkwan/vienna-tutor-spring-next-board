@@ -30,7 +30,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long>{
     public List<ArticleDto> getArticleDTOsByBoardId(@Param("boardId") Long boardId);
 
 
-    List<Article> findAllByOrderByIdDesc();
+    List<Article> findAllByOrderByArticleIdDesc();
 
     
 } 

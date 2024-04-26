@@ -1,25 +1,37 @@
 'use client'
 
-import { useRouter } from "next/navigation"
-import { DataGrid } from '@mui/x-data-grid';
-import { useState, useEffect } from "react"
-import {Box, Button, Input} from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux'
-import { NextPage } from "next";
-import { getArticleById } from '@/app/components/article/service/article-slice'
-import { findArticleById } from '@/app/components/article/service/article-service'
-import { IArticle } from "@/app/components/article/model/article";
-// import React from "react";
+import IArticle from "@/app/components/article/model/article";
+import {findArticleById } from "@/app/components/article/service/article-service";
 
-export default function ArticleDetail({params}:any){
+import { PG } from "@/app/components/common/enums/PG";
 
-const dispatch = useDispatch()
-const article:IArticle = useSelector(getArticleById)
+import { Button, Input } from "@mui/material";
+import { useRouter } from "next/navigation";
 
-useEffect(()=>{dispatch(findArticleById(params.id))},[])
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-    return(<>
-    <h2>{params.id}상세 페이지</h2>
-    {article}
-    </>)
+
+export default function ArticleDetailPage({params}:any){
+    const dispatch = useDispatch();
+  
+    const router = useRouter();
+
+    useEffect(() => {
+        dispatch(findArticleById(params.id))
+    },[])
+
+
+
+    return (<div className="text-center">
+            <p className="text-xl">Article Detail</p><br />
+            <p className="text-base">ID : {params.id}</p>
+            <span className="text-base">Title : </span><Input className="text-base" placeholder={''} onChange={()=>console.log('')} /><br />
+            <span className="text-base">Content : </span><Input className="text-base" placeholder={''} onChange={()=>console.log('')} /><br />
+            <p className="text-base">Register Date :</p>
+            <p className="text-base">Modified Date : </p>
+            <Button onClick={()=>console.log('')}>Update</Button>
+            <Button onClick={()=>console.log('')}>Delete</Button>
+        </div>)
 }
